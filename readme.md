@@ -1,4 +1,4 @@
-#HOWTO:  interact with files using minio with docker and docker-compose
+# HOWTO:  interact with files using minio with docker and docker-compose
 par Thomas Ragot
 2018-02-22
 
