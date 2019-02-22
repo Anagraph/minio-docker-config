@@ -1,6 +1,7 @@
 version: '3.3'
 
 services:
+ # minio server service 
  minio-server:
   image: minio/minio
   volumes:
@@ -11,8 +12,10 @@ services:
    MINIO_ACCESS_KEY: ${MINIO_ACCESS_KEY}
    MINIO_SECRET_KEY: ${MINIO_SECRET_KEY}
   command: server /data
+ # service not necessary, used here to explain how to interact from the container
  minio-client:
   image: minio/mc
+  # insure that the server container is running before building the client
   depends_on:
     - minio-server
   entrypoint: >
