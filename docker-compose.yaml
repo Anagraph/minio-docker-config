@@ -1,0 +1,26 @@
+version: '3.3'
+
+services:
+ minio-server:
+  image: minio/minio
+  volumes:
+   - ${MINIO_DATA_ROOT_DIR}:/data
+  ports:
+   - "9000:9000"
+  environment:
+   MINIO_ACCESS_KEY: ${MINIO_ACCESS_KEY}
+   MINIO_SECRET_KEY: ${MINIO_SECRET_KEY}
+  command: server /data
+ minio-client:
+  image: minio/mc
+  depends_on:
+    - minio-server
+  entrypoint: >
+   /bin/sh -c "
+   /usr/bin/mc config;
+   /usr/bin/mc config host add myminio http://minio-server:9000 ${MINIO_ACCESS_KEY} ${MINIO_SECRET_KEY};
+   /usr/bin/mc mb myminio/test-bucket;
+   echo 'my content' > myfile.txt;
+   /usr/bin/mc cp myfile.txt myminio/test-bucket;
+   exit 0;
+   "
