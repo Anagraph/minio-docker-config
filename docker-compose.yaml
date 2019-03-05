@@ -4,6 +4,7 @@ services:
  # minio server service 
  minio-server:
   image: minio/minio
+  restart: always
   volumes:
    - ${MINIO_DATA_ROOT_DIR}:/data
   ports:
